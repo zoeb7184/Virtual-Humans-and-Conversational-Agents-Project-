@@ -1,23 +1,43 @@
-# Virtual Humans & Conversational Agents for Robotics
+# Voice-Controlled Robotic Manipulation System
+
+### Hybrid Cloud-Edge Conversational AI using Whisper Large-v3, Rasa NLU, ROS2, and Kokoro TTS
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![Rasa](https://img.shields.io/badge/Rasa-Conversational%20AI-purple)
 ![ROS2](https://img.shields.io/badge/ROS2-Robotics-green)
+![Whisper](https://img.shields.io/badge/Whisper-Large--v3-red)
 ![Architecture](https://img.shields.io/badge/Architecture-Cloud%2FEdge%20Hybrid-orange)
 
-A deterministic, real-time voice control system designed for physical robotic agents. This project bridges local robotic hardware with cloud-based GPU processing to achieve rapid, conversational AI interactions without hardware bottlenecks.
+A real-time voice-controlled robotic manipulation system that combines cloud-based speech recognition with local ROS2 robotic control to enable natural language interaction with a robotic arm. The system supports object manipulation tasks such as pick-and-place operations, object handovers, and spatial placement commands through conversational voice commands.
+
+---
+
+## 🎥 Demo
+
+https://github.com/zoeb7184/Virtual-Humans-and-Conversational-Agents-Project-/blob/main/Docs/demo_video.mp4
+
+The robotic arm can understand and execute commands such as:
+
+* "Pick-up the tamato. (As shown in the video)"
+* "Put the small box behind the lemon."
+* "Give me the yellow lemon."
+* "Give me all lemons."
+* "Stop."
+* "Let's try again."
+
+---
 
 ## 🚀 The Challenge & Solution
 
 ### The Problem
 
-Running state-of-the-art Automatic Speech Recognition (ASR) models like Whisper Large-v3 locally on a Mac CPU introduces severe latency (up to 12 seconds). In robotics, this delay makes deterministic, real-time physical control impossible.
+Running state-of-the-art Automatic Speech Recognition (ASR) models such as Whisper Large-v3 locally on a CPU introduces significant latency (up to 12 seconds), making responsive voice-controlled robotic manipulation difficult.
 
-### The Engineered Solution
+### The Solution
 
-We built a **hybrid cloud-edge architecture**.
+To overcome this limitation, a hybrid cloud-edge architecture was developed.
 
-By offloading heavy AI transcription tasks to a Google Colab T4 GPU and routing audio data through a secure Cloudflare Tunnel, we bypass local hardware limitations. This setup achieves near real-time inference speeds while local scripts handle conversational logic (Rasa) and localized Text-to-Speech (Kokoro), resulting in seamless robotic voice control.
+Heavy speech recognition workloads are offloaded to a Google Colab T4 GPU through a secure Cloudflare Tunnel, while conversational reasoning, robotic control, and speech synthesis remain on the local machine. This architecture dramatically reduces latency while maintaining reliable robotic control.
 
 ---
 
@@ -25,21 +45,65 @@ By offloading heavy AI transcription tasks to a Google Colab T4 GPU and routing 
 
 ![Voice-Controlled Robotic Manipulation System](Docs/architecture_diagram.png)
 
-*Figure 1. Hybrid cloud-edge architecture for a voice-controlled robotic manipulation system integrating Whisper Large-v3, Rasa NLU, ROS2, Cloudflare Tunnel, and Kokoro TTS.*
+*Figure 1. Hybrid cloud-edge architecture integrating Whisper Large-v3, Rasa NLU, ROS2, Cloudflare Tunnel, and Kokoro TTS.*
 
-This project combines cloud-based speech recognition with local robotic manipulation to enable natural language control of a robotic arm. User voice commands are transcribed using Whisper Large-v3 running on a Google Colab T4 GPU, interpreted through a Rasa conversational agent, and executed by ROS2-based robotic control nodes. The system supports object manipulation tasks such as pick-and-place operations, object handovers, and spatial placement commands while providing real-time spoken feedback through Kokoro Text-to-Speech.
+This system combines cloud-based speech recognition with local robotic manipulation to enable natural language control of a robotic arm.
 
 ### Processing Pipeline
 
-1. **Voice Command Acquisition** – User speech is captured through a local audio interface.
-2. **Cloud-Based Speech Recognition** – Audio is securely transmitted through a Cloudflare Tunnel to a cloud-hosted Whisper Large-v3 model for low-latency transcription.
-3. **Natural Language Understanding** – The transcribed command is processed by a Rasa NLU pipeline to identify user intent, objects, attributes, and spatial relationships.
-4. **Robotic Task Planning** – Parsed commands are translated into structured manipulation actions using custom ROS2 control nodes.
-5. **Robotic Arm Execution** – The robotic arm performs pick-and-place, handover, or object positioning tasks based on the interpreted command.
-6. **Speech Feedback Generation** – Kokoro TTS generates natural language responses to confirm actions, request clarification, or report task completion.
+1. **Voice Command Acquisition** – User speech is captured through a local microphone.
+2. **Cloud-Based Speech Recognition** – Audio is securely transmitted via Cloudflare Tunnel to a cloud-hosted Whisper Large-v3 model.
+3. **Natural Language Understanding** – Rasa NLU extracts intents, objects, attributes, and spatial relationships.
+4. **Task Planning** – Commands are translated into structured robotic manipulation actions.
+5. **Robotic Arm Execution** – ROS2 control nodes execute pick-and-place and handover tasks.
+6. **Speech Feedback** – Kokoro TTS generates spoken confirmations and responses.
 
-The hybrid cloud-edge architecture significantly reduces speech recognition latency while maintaining deterministic robotic control, enabling responsive and conversational human-robot interaction.
+---
 
+## 📊 Results
+
+| Configuration       | ASR Latency  |
+| ------------------- | ------------ |
+| Local CPU           | ~12 seconds  |
+| Google Colab T4 GPU | ~1–2 seconds |
+
+**Performance Improvement:** 6–10× faster transcription compared to local CPU execution.
+
+---
+
+## 🗣️ Supported Voice Commands
+
+### Greetings
+
+* Hello
+* Hi
+* Hello robot
+* Hi system
+* Hello Hal
+
+### Place Commands
+
+* Put the red apple on the table
+* Put the small box behind the lemon
+* Put all bananas in the box
+* Put the green sphere left of the stone
+* Put the white box onto the table
+
+### Give Commands
+
+* Give me the red apple
+* Give me a banana
+* Give me all lemons
+* Give me the purple stone
+
+### Control Commands
+
+* Stop
+* Halt
+* Freeze
+* Let's try again
+* Yes
+* No
 
 ---
 
@@ -49,53 +113,42 @@ The hybrid cloud-edge architecture significantly reduces speech recognition late
 Virtual-Humans-and-Conversational-Agents-Project-
 │
 ├── Core_scripts/
-│   ├── robot_main.py
-│   ├── cloud_robot.py
-│   └── ...
-│
 ├── Rasa_bot/
-│   ├── actions/
-│   ├── data/
-│   ├── domain.yml
-│   └── ...
-│
 ├── TTS_engine/
-│   ├── download_tts.py
-│   ├── fix_download.py
-│   └── ...
-│
 └── Docs/
+    ├── architecture_diagram.png
+    ├── demo_video.mp4
     └── Voice Robot Command Cheat Sheet
 ```
 
 ### Folder Overview
 
-| Folder         | Purpose                                                            |
-| -------------- | ------------------------------------------------------------------ |
-| `Core_scripts` | Main execution loops, robot control logic, and cloud communication |
-| `Rasa_bot`     | Complete Rasa conversational AI workspace                          |
-| `TTS_engine`   | Kokoro Text-to-Speech model setup and management                   |
-| `Docs`         | Project documentation and command references                       |
+| Folder       | Purpose                                                  |
+| ------------ | -------------------------------------------------------- |
+| Core_scripts | Robot control, execution logic, and cloud communication  |
+| Rasa_bot     | Conversational AI and intent recognition                 |
+| TTS_engine   | Kokoro Text-to-Speech configuration                      |
+| Docs         | Documentation, architecture diagrams, and demonstrations |
 
 ---
 
 ## 🛠️ Installation & Setup
 
-### 1. Clone Repository
+### Clone Repository
 
 ```bash
 git clone https://github.com/zoeb7184/Virtual-Humans-and-Conversational-Agents-Project-.git
 cd Virtual-Humans-and-Conversational-Agents-Project-
 ```
 
-### 2. Create Virtual Environment
+### Create Virtual Environment
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Install Dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -103,18 +156,14 @@ pip install -r requirements.txt
 
 ---
 
-## 🎤 Fetching TTS Models
-
-To keep the repository lightweight, large `.onnx` and `.bin` files are excluded using `.gitignore`.
-
-Download Kokoro TTS models locally:
+## 🎤 Download Kokoro TTS Models
 
 ```bash
 cd TTS_engine
 python download_tts.py
 ```
 
-If you encounter path-related issues:
+If required:
 
 ```bash
 python fix_download.py
@@ -122,36 +171,34 @@ python fix_download.py
 
 ---
 
-## ☁️ Cloud GPU Setup (Whisper)
+## ☁️ Cloud GPU Setup
 
 1. Open the Google Colab notebook.
-2. Select **Runtime → Change Runtime Type → T4 GPU**.
+2. Enable a T4 GPU runtime.
 3. Run all notebook cells.
-4. Start the Cloudflare Tunnel.
-5. Copy the generated tunnel URL.
-6. Update the endpoint configuration inside `Core_scripts`.
+4. Start Cloudflare Tunnel.
+5. Copy the generated endpoint URL.
+6. Update the local configuration.
 
 ---
 
 ## 💻 Running the System
 
-The system requires multiple services running simultaneously.
-
-### Terminal 1 – Start Rasa Action Server
+### Terminal 1 – Rasa Action Server
 
 ```bash
 cd Rasa_bot
 rasa run actions
 ```
 
-### Terminal 2 – Start Rasa Core Server
+### Terminal 2 – Rasa Core
 
 ```bash
 cd Rasa_bot
 rasa run --enable-api
 ```
 
-### Terminal 3 – Start Robot Controller
+### Terminal 3 – Robot Controller
 
 ```bash
 cd Core_scripts
@@ -162,26 +209,29 @@ python robot_main.py
 
 ## 🧰 Technology Stack
 
-* Python 3.8+
-* Rasa Open Source
+* Python
 * ROS2
+* Rasa Open Source
 * Whisper Large-v3
-* Google Colab GPU (T4)
+* Google Colab T4 GPU
 * Cloudflare Tunnel
 * Kokoro TTS
-* Hybrid Cloud/Edge Architecture
+* Hybrid Cloud-Edge Computing
 
 ---
 
-## 🎯 Key Features
+## 🔍 Skills Demonstrated
 
-* Real-time voice command processing
-* Cloud-accelerated speech recognition
-* Conversational AI using Rasa
-* ROS2 robotic control integration
-* Local Text-to-Speech feedback
-* Secure Cloudflare Tunnel communication
-* Modular and scalable architecture
+* Conversational AI
+* Speech Recognition (ASR)
+* Natural Language Understanding
+* Human-Robot Interaction
+* Robotic Manipulation
+* ROS2 Development
+* Distributed Systems
+* Cloud Computing
+* Edge AI
+* Python Development
 
 ---
 
@@ -196,4 +246,4 @@ python robot_main.py
 
 ## 📄 License
 
-This project was developed as part of the **Virtual Humans & Conversational Agents** coursework and research in conversational AI for robotics.
+Developed as part of the Virtual Humans & Conversational Agents coursework, focusing on conversational AI and robotic manipulation systems.
