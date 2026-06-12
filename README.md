@@ -23,11 +23,23 @@ By offloading heavy AI transcription tasks to a Google Colab T4 GPU and routing 
 
 ## 🏗️ System Architecture
 
-1. **Audio Capture (Edge)** – Local client captures voice commands.
-2. **High-Speed Tunneling (Network)** – Audio data streams securely via Cloudflare Tunnel.
-3. **ASR Inference (Cloud)** – Whisper Large-v3 running on a Colab T4 GPU processes audio and returns transcribed text.
-4. **Dialogue Management (Edge)** – Local Rasa server parses intent and determines robotic actions.
-5. **Execution & Feedback (Edge)** – ROS2/Python nodes execute commands and Kokoro TTS generates spoken responses.
+![Voice-Controlled Robotic Manipulation System](Docs/architecture_diagram.png)
+
+*Figure 1. Hybrid cloud-edge architecture for a voice-controlled robotic manipulation system integrating Whisper Large-v3, Rasa NLU, ROS2, Cloudflare Tunnel, and Kokoro TTS.*
+
+This project combines cloud-based speech recognition with local robotic manipulation to enable natural language control of a robotic arm. User voice commands are transcribed using Whisper Large-v3 running on a Google Colab T4 GPU, interpreted through a Rasa conversational agent, and executed by ROS2-based robotic control nodes. The system supports object manipulation tasks such as pick-and-place operations, object handovers, and spatial placement commands while providing real-time spoken feedback through Kokoro Text-to-Speech.
+
+### Processing Pipeline
+
+1. **Voice Command Acquisition** – User speech is captured through a local audio interface.
+2. **Cloud-Based Speech Recognition** – Audio is securely transmitted through a Cloudflare Tunnel to a cloud-hosted Whisper Large-v3 model for low-latency transcription.
+3. **Natural Language Understanding** – The transcribed command is processed by a Rasa NLU pipeline to identify user intent, objects, attributes, and spatial relationships.
+4. **Robotic Task Planning** – Parsed commands are translated into structured manipulation actions using custom ROS2 control nodes.
+5. **Robotic Arm Execution** – The robotic arm performs pick-and-place, handover, or object positioning tasks based on the interpreted command.
+6. **Speech Feedback Generation** – Kokoro TTS generates natural language responses to confirm actions, request clarification, or report task completion.
+
+The hybrid cloud-edge architecture significantly reduces speech recognition latency while maintaining deterministic robotic control, enabling responsive and conversational human-robot interaction.
+
 
 ---
 
