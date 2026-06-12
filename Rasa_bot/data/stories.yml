@@ -1,0 +1,23 @@
+version: "3.1"
+
+stories:
+- story: simple pick up path
+  steps:
+  - intent: pick_up
+  - action: utter_ack
+
+- story: simple move path
+  steps:
+  - intent: move_to
+  - action: utter_ack
+
+# ADDED THIS MISSING STORY
+- story: simple place path
+  steps:
+  - intent: place
+  - action: utter_ack
+
+- story: stop command
+  steps:
+  - intent: stop
+  - action: utter_stop

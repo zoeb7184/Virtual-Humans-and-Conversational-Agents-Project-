@@ -1,0 +1,59 @@
+version: "3.1"
+
+intents:
+  - pick_up
+  - move_to
+  - place
+  - stop
+
+entities:
+  - agent
+  - object
+  - location
+  - relation
+
+slots:
+  agent:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: agent
+  object:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: object
+  location:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: location
+  relation:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: relation
+
+responses:
+  utter_ask_agent:
+    - text: "Which agent should do this? Left or right?"
+
+  utter_ask_object:
+    - text: "What object should I pick up?"
+
+  utter_ask_location:
+    - text: "Where should I move it?"
+
+  utter_ack:
+    - text: "Okay. Executing command."
+
+  utter_stop:
+    - text: "Stopping immediately."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

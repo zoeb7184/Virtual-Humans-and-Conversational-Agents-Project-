@@ -1,0 +1,53 @@
+version: "3.1"
+
+nlu:
+- intent: pick_up
+  examples: |
+    - [left](agent) agent pick up the [tomato](object)
+    - [right](agent) agent pick up the [tomato](object)
+    - [left](agent) arm pick up the [knife](object)
+    - [right](agent) arm pick up the [knife](object)
+    - pick up the [bowl](object)
+    - pick up the [cup](object)
+    - grab the [tomato](object)
+    - take the [pan](object)
+    - pick up the [tomato](object) from the [cutting board](location)
+    - grab the [knife](object) from the [table](location)
+    # NEW: "Hey Robot" examples
+    - hey robot pick up the [tomato](object)
+    - hey robot grab the [knife](object)
+    - robot pick up the [cup](object)
+    - hey robot take the [pan](object)
+
+- intent: move_to
+  examples: |
+    - [left](agent) agent move to the [cutting board](location)
+    - [right](agent) agent move to the [cutting board](location)
+    - [left](agent) arm go to the [table](location)
+    - [right](agent) arm go to the [stove](location)
+    - move to the [cutting board](location)
+    - go to the [table](location)
+    # Target objects labeled as locations for movement logic
+    - move near the [pan](location)
+    - move next to the [bowl](location)
+    - move close to the [tomato](location)
+
+- intent: place
+  examples: |
+    - [left](agent) agent place the [tomato](object) on the [table](location)
+    - [right](agent) arm place the [knife](object) on the [cutting board](location)
+    - put the [bowl](object) on the [table](location)
+    - place the [cup](object) on the [table](location)
+    - keep the [tomato](object) near the [pan](location)
+    - put the [knife](object) next to the [bowl](location)
+
+- intent: stop
+  examples: |
+    - stop
+    - wait
+    - hold on
+    - freeze
+    - pause
+    - emergency stop
+    - stop now
+    - abort

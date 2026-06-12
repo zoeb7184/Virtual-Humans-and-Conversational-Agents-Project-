@@ -1,0 +1,22 @@
+version: "3.1"
+
+rules:
+  - rule: Acknowledge Pick Up
+    steps:
+      - intent: pick_up
+      - action: utter_ack
+
+  - rule: Acknowledge Move To
+    steps:
+      - intent: move_to
+      - action: utter_ack
+
+  - rule: Acknowledge Place
+    steps:
+      - intent: place
+      - action: utter_ack
+
+  - rule: Emergency Stop
+    steps:
+      - intent: stop
+      - action: utter_stop
